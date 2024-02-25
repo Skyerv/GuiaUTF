@@ -1,5 +1,6 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:guia_utf/pages/map_page.dart';
 import 'package:highlight_text/highlight_text.dart';
 import 'package:latlng/latlng.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -102,28 +103,29 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Icon(_isListening ? Icons.mic : Icons.mic_none),
         ),
       ),
-      body: SingleChildScrollView(
-        reverse: true,
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
-          // child: TextHighlight(
-          //   text: _text,
-          //   words: _highlights,
-          //   textStyle: const TextStyle(
-          //     fontSize: 32.0,
-          //     color: Colors.black,
-          //     fontWeight: FontWeight.w400,
-          //   ),
-          // ),
-          child: Text(
-            _destination,
-            style: TextStyle(
-                fontSize: 24.0,
-                color: Colors.teal[600],
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
+      body: const MapPage(),
+      // body: SingleChildScrollView(
+      //   reverse: true,
+      //   child: Container(
+      //     padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
+      //     // child: TextHighlight(
+      //     //   text: _text,
+      //     //   words: _highlights,
+      //     //   textStyle: const TextStyle(
+      //     //     fontSize: 32.0,
+      //     //     color: Colors.black,
+      //     //     fontWeight: FontWeight.w400,
+      //     //   ),
+      //     // ),
+      //     child: Text(
+      //       _destination,
+      //       style: TextStyle(
+      //           fontSize: 24.0,
+      //           color: Colors.teal[600],
+      //           fontWeight: FontWeight.bold),
+      //     ),
+      //   ),
+      // ),
     );
   }
 
