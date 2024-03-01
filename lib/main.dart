@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 76, 229, 177)),
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 53, 189, 171)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'GuiaUTF'),
@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title:
-            Text('Confidence: ${(_confidence * 100.0).toStringAsFixed((1))}%'),
+            Text('Indo até ${_destination}'),
       ),
       floatingActionButton: AvatarGlow(
         animate: _isListening,
@@ -152,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   for (String word in words) {
                     if (_locations.containsKey(word)) {
-                      _destination = 'Coordenadas de $word: ${_locations[word]!}';
+                      _destination = word; // 'Coordenadas de $word: ${_locations[word]!}';
                       return;
                     }
                   }
