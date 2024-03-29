@@ -1,11 +1,21 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:guia_utf/helpers/shared_prefs.dart';
+import 'package:guia_utf/pages/home.dart';
+import 'package:guia_utf/ui/splash.dart';
 import 'package:highlight_text/highlight_text.dart';
 import 'package:latlng/latlng.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:latlng/latlng.dart' as latLng;
+import 'package:mapbox_gl/mapbox_gl.dart' as mapbox;
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+late SharedPreferences sharedPreferences;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  sharedPreferences = await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
 
@@ -38,7 +48,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  //mapbox.LatLng currentLocation = '';//getCurrentLatLngFromSharedPrefs();
   late String _destination = "";
+  late String currentAdress = "";
+  late CameraPosition _initialCameraPosition;
 
   final Map<String, HighlightedWord> _highlights = {
     'biblioteca': HighlightedWord(
@@ -81,50 +94,29 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _speech = stt.SpeechToText();
+    currentAdress = getCurrentAddressFromSharedPrefs();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title:
-            Text('Confidence: ${(_confidence * 100.0).toStringAsFixed((1))}%'),
-      ),
-      floatingActionButton: AvatarGlow(
-        animate: _isListening,
-        glowColor: Theme.of(context).primaryColor,
-        duration: const Duration(milliseconds: 1000),
-        repeat: true,
-        child: FloatingActionButton.large(
-          shape: const CircleBorder(),
-          onPressed: _listen,
-          child: Icon(_isListening ? Icons.mic : Icons.mic_none),
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: const Text('GuiaUTF'),
+          centerTitle: true,
         ),
-      ),
-      body: SingleChildScrollView(
-        reverse: true,
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
-          // child: TextHighlight(
-          //   text: _text,
-          //   words: _highlights,
-          //   textStyle: const TextStyle(
-          //     fontSize: 32.0,
-          //     color: Colors.black,
-          //     fontWeight: FontWeight.w400,
-          //   ),
-          // ),
-          child: Text(
-            _destination,
-            style: TextStyle(
-                fontSize: 24.0,
-                color: Colors.teal[600],
-                fontWeight: FontWeight.bold),
+        floatingActionButton: AvatarGlow(
+          animate: _isListening,
+          glowColor: Theme.of(context).primaryColor,
+          duration: const Duration(milliseconds: 1000),
+          repeat: true,
+          child: FloatingActionButton.large(
+            shape: const CircleBorder(),
+            onPressed: _listen,
+            child: Icon(_isListening ? Icons.mic : Icons.mic_none),
           ),
         ),
-      ),
-    );
+        body: const Home());
   }
 
   void _listen() async {
@@ -150,7 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   for (String word in words) {
                     if (_locations.containsKey(word)) {
-                      _destination = 'Coordenadas de $word: ${_locations[word]!}';
+                      _destination =
+                          'Coordenadas de $word: ${_locations[word]!}';
                       return;
                     }
                   }
