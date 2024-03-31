@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:latlng/latlng.dart';
 
 import '../main.dart';
 
 LatLng getCurrentLatLngFromSharedPrefs() {
-  return LatLng(sharedPreferences.getDouble('latitude') ?? 0,
-      sharedPreferences.getDouble('longitude') ?? 0);
+  return LatLng.degree((sharedPreferences.getDouble('latitude') ?? 0),
+      (sharedPreferences.getDouble('longitude') ?? 0));
 }
 
 String getCurrentAddressFromSharedPrefs() {
@@ -14,16 +14,19 @@ String getCurrentAddressFromSharedPrefs() {
 }
 
 LatLng getTripLatLngFromSharedPrefs(String type) {
-  List sourceLocationList =
-      json.decode(sharedPreferences.getString('source')!)['location'];
-  List destinationLocationList =
-      json.decode(sharedPreferences.getString('destination')!)['location'];
-  LatLng source = LatLng(sourceLocationList[0], sourceLocationList[1]);
+  // List sourceLocationList =
+  //     json.decode(sharedPreferences.getString('source')!)['location'] ?? [0, 0];
+  double destinationLat =
+      sharedPreferences.getDouble('destinationLat')! ?? 0;
+  double destinationLon =
+      sharedPreferences.getDouble('destinationLon')! ?? 0;
+  //LatLng source = LatLng(sourceLocationList[0], sourceLocationList[1]);
   LatLng destination =
-      LatLng(destinationLocationList[0], destinationLocationList[1]);
+      LatLng.degree(destinationLat, destinationLon);
 
   if (type == 'source') {
-    return source;
+    //return source;
+    return LatLng.degree(0, 0);
   } else {
     return destination;
   }

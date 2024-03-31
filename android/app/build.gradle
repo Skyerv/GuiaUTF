@@ -64,4 +64,9 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation "com.mapbox.search:mapbox-search-android:1.0.0-rc.6"
+    implementation "com.mapbox.search:mapbox-search-android-ui:1.0.0-rc.6"
+    implementation "org.jetbrains.kotlin:kotlin-bom:1.8.0"
+}
+

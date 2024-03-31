@@ -1,15 +1,5 @@
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
-import 'package:guia_utf/helpers/shared_prefs.dart';
-import 'package:guia_utf/pages/home.dart';
 import 'package:guia_utf/pages/microphone.dart';
-import 'package:guia_utf/ui/splash.dart';
-import 'package:highlight_text/highlight_text.dart';
-import 'package:latlng/latlng.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:speech_to_text/speech_to_text.dart' as stt;
-import 'package:latlng/latlng.dart' as latLng;
-import 'package:mapbox_gl/mapbox_gl.dart' as mapbox;
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences sharedPreferences;
@@ -31,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 205, 255, 255)),
+            ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 205, 255, 255)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'GuiaUTF'),

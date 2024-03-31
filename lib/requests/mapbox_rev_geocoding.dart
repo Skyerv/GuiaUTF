@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
-
+import 'package:latlng/latlng.dart';
 import '../helpers/dio_exceptions.dart';
 
 String baseUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places';

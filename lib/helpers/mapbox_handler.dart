@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:latlng/latlng.dart';
 
 import '../requests/mapbox_directions.dart';
 import '../requests/mapbox_rev_geocoding.dart';
