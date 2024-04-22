@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:guia_utf/pages/microphone.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,9 +40,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  FlutterTts flutterTts = FlutterTts();
+  
   @override
   void initState() {
     super.initState();
+    initialSpeech();
+  }
+
+  void initialSpeech() async {
+    await flutterTts.speak(
+        "Bem-vindo ao Guia UTF. No meio da tela há um botão. Clique nele e diga para onde deseja ir.");
   }
 
   @override

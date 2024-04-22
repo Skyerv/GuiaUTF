@@ -40,6 +40,7 @@ class _TurnByTurnState extends State<TurnByTurn> {
 
     // Configurar opções do MapBox
     directions = MapBoxNavigation();
+    MapBoxNavigation.instance.registerRouteEventListener(_onRouteEvent);
     _options = MapBoxOptions(
         zoom: 18.0,
         voiceInstructionsEnabled: true,

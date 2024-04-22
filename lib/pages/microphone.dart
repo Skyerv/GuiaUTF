@@ -1,5 +1,6 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:guia_utf/pages/turn_by_turn.dart';
 import 'package:latlng/latlng.dart';
 import 'package:location/location.dart';
@@ -24,6 +25,8 @@ class _MicrophonePageState extends State<MicrophonePage>
   late String _screenText = "Passar comando";
   late String _screenSubtext = "Clique no microfone para passar um comando";
 
+  FlutterTts flutterTts = FlutterTts();
+
   final Map<String, LatLng> _locations = {
     'biblioteca': LatLng.degree((-25.05179784592007), (-50.13033029064471)),
     // 'bloco L':
@@ -45,6 +48,7 @@ class _MicrophonePageState extends State<MicrophonePage>
   void initState() {
     super.initState();
     _speech = stt.SpeechToText();
+    //initialSpeech();
     initializeLocationAndSave();
   }
 
@@ -66,8 +70,8 @@ class _MicrophonePageState extends State<MicrophonePage>
 
     // // Get the current user location
     LocationData _locationData = await _location.getLocation();
-    LatLng currentLocation =
-        LatLng(_locationData.latitude! as Angle, _locationData.longitude! as Angle);
+    LatLng currentLocation = LatLng(
+        _locationData.latitude! as Angle, _locationData.longitude! as Angle);
 
     // // Get the current user address
     String currentAddress =
@@ -145,13 +149,11 @@ class _MicrophonePageState extends State<MicrophonePage>
         _screenSubtext = "O aplicativo irá ouvir seu comando e responder";
 
         _speech.listen(
-            onResult: (val) => setState(() {
+            onResult: (val) => setState(() async {
                   _text = val.recognizedWords;
                   if (val.hasConfidenceRating && val.confidence > 0) {
                     _confidence = val.confidence;
                   }
-
-                  print(val.recognizedWords.toString().toLowerCase());
 
                   List<String> words =
                       val.recognizedWords.toLowerCase().split(' ');
@@ -159,17 +161,14 @@ class _MicrophonePageState extends State<MicrophonePage>
                   for (String word in words) {
                     if (_locations.containsKey(word)) {
                       _destination = _locations[word]!;
+                      await flutterTts.speak("Entendido. Indo até $word");
 
-                      sharedPreferences.setDouble('destinationLat', (_destination.latitude).degrees);
-                      sharedPreferences.setDouble('destinationLon', (_destination.longitude).degrees);
+                      sharedPreferences.setDouble(
+                          'destinationLat', (_destination.latitude).degrees);
+                      sharedPreferences.setDouble(
+                          'destinationLon', (_destination.longitude).degrees);
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const TurnByTurn(),
-                        ),
-                      );
+                      _navigateToDestination(context);
                       return;
                     }
                   }
@@ -183,4 +182,13 @@ class _MicrophonePageState extends State<MicrophonePage>
       _speech.stop();
     }
   }
+
+  void _navigateToDestination(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const TurnByTurn(),
+        ),
+    );
+}
 }
