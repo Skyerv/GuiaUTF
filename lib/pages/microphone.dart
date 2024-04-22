@@ -50,33 +50,33 @@ class _MicrophonePageState extends State<MicrophonePage>
 
   void initializeLocationAndSave() async {
     // Ensure all permissions are collected for Locations
-    // Location _location = Location();
-    // bool? _serviceEnabled;
-    // PermissionStatus? _permissionGranted;
+    Location _location = Location();
+    bool? _serviceEnabled;
+    PermissionStatus? _permissionGranted;
 
-    // _serviceEnabled = await _location.serviceEnabled();
-    // if (!_serviceEnabled) {
-    //   _serviceEnabled = await _location.requestService();
-    // }
+    _serviceEnabled = await _location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await _location.requestService();
+    }
 
-    // _permissionGranted = await _location.hasPermission();
-    // if (_permissionGranted == PermissionStatus.denied) {
-    //   _permissionGranted = await _location.requestPermission();
-    // }
+    _permissionGranted = await _location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await _location.requestPermission();
+    }
 
     // // Get the current user location
-    // LocationData _locationData = await _location.getLocation();
-    // LatLng currentLocation =
-    //     LatLng(_locationData.latitude! as Angle, _locationData.longitude! as Angle);
+    LocationData _locationData = await _location.getLocation();
+    LatLng currentLocation =
+        LatLng(_locationData.latitude! as Angle, _locationData.longitude! as Angle);
 
     // // Get the current user address
-    // String currentAddress =
-    //     (await getParsedReverseGeocoding(currentLocation))['place'];
+    String currentAddress =
+        (await getParsedReverseGeocoding(currentLocation))['place'];
 
     // // Store the user location in sharedPreferences
-    // sharedPreferences.setDouble('latitude', _locationData.latitude!);
-    // sharedPreferences.setDouble('longitude', _locationData.longitude!);
-    // sharedPreferences.setString('current-address', currentAddress);
+    sharedPreferences.setDouble('latitude', _locationData.latitude!);
+    sharedPreferences.setDouble('longitude', _locationData.longitude!);
+    sharedPreferences.setString('current-address', currentAddress);
   }
 
   @override
@@ -158,23 +158,16 @@ class _MicrophonePageState extends State<MicrophonePage>
 
                   for (String word in words) {
                     if (_locations.containsKey(word)) {
-                      _destination = _locations[word]! ?? LatLng.degree(0, 0);
-                      _destinationName =
-                          word[0].toUpperCase() + word.substring(1);
+                      _destination = _locations[word]!;
 
                       sharedPreferences.setDouble('destinationLat', (_destination.latitude).degrees);
                       sharedPreferences.setDouble('destinationLon', (_destination.longitude).degrees);
 
                       Navigator.push(
                         context,
-                        // MaterialPageRoute(
-                        //   builder: (context) => Home(
-                        //       destination: _destination,
-                        //       destinationName: _destinationName),
-                        // ),
                         MaterialPageRoute(
                           builder: (context) =>
-                              TurnByTurn(destination: _destination),
+                              const TurnByTurn(),
                         ),
                       );
                       return;
