@@ -5,21 +5,20 @@ import 'package:guia_utf/helpers/shared_prefs.dart';
 import 'package:latlng/latlng.dart';
 
 class TurnByTurn extends StatefulWidget {
-  final LatLng destination;
-  const TurnByTurn({super.key, required this.destination});
+  const TurnByTurn({super.key});
 
   @override
   State<TurnByTurn> createState() => _TurnByTurnState();
 }
 
 class _TurnByTurnState extends State<TurnByTurn> {
-  // Waypoints to mark trip start and end
+  // Waypoints para marcar saída e destino da viagem
   LatLng source = LatLng.degree((-25.051335279045908), (-50.13230204687456));
   LatLng destination = getTripLatLngFromSharedPrefs('destination');
   late WayPoint sourceWaypoint, destinationWaypoint;
   var wayPoints = <WayPoint>[];
 
-  // Config variables for Mapbox Navigation
+  // Variáveis de configuração para navegação do MapBox
   late MapBoxNavigation directions;
   late MapBoxOptions _options;
   late double distanceRemaining, durationRemaining;
@@ -39,7 +38,7 @@ class _TurnByTurnState extends State<TurnByTurn> {
   Future<void> initialize() async {
     if (!mounted) return;
 
-    // Setup directions and options
+    // Configurar opções do MapBox
     directions = MapBoxNavigation();
     _options = MapBoxOptions(
         zoom: 18.0,
@@ -51,9 +50,11 @@ class _TurnByTurnState extends State<TurnByTurn> {
         simulateRoute: false,
         language: "pt-BR");
 
-    // Configure waypoints
+    // Configurar waypoints com informações passadas
     sourceWaypoint = WayPoint(
-        name: "Source", latitude: (source.latitude).degrees, longitude: (source.longitude).degrees);
+        name: "Source",
+        latitude: (source.latitude).degrees,
+        longitude: (source.longitude).degrees);
     destinationWaypoint = WayPoint(
         name: "Destination",
         latitude: (destination.latitude).degrees,
@@ -61,7 +62,7 @@ class _TurnByTurnState extends State<TurnByTurn> {
     wayPoints.add(sourceWaypoint);
     wayPoints.add(destinationWaypoint);
 
-    // Start the trip
+    // Iniciar navegação
     await directions.startNavigation(wayPoints: wayPoints, options: _options);
   }
 
@@ -71,8 +72,8 @@ class _TurnByTurnState extends State<TurnByTurn> {
   }
 
   Future<void> _onRouteEvent(e) async {
-    distanceRemaining = (await directions.getDistanceRemaining())! ?? 0;
-    durationRemaining = (await directions.getDurationRemaining())! ; 0;
+    distanceRemaining = (await directions.getDistanceRemaining())!;
+    durationRemaining = (await directions.getDurationRemaining())!;
 
     switch (e.eventType) {
       case MapBoxEvent.progress_change:
