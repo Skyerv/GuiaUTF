@@ -13,8 +13,9 @@ class TurnByTurn extends StatefulWidget {
 
 class _TurnByTurnState extends State<TurnByTurn> {
   // Waypoints para marcar saída e destino da viagem
-  LatLng source = LatLng.degree((-25.051335279045908), (-50.13230204687456));
+  LatLng source = LatLng.degree(-25.051134467404218, -50.132750645742206);
   LatLng destination = getTripLatLngFromSharedPrefs('destination');
+  String destinationName = getDestinationName();
   late WayPoint sourceWaypoint, destinationWaypoint;
   var wayPoints = <WayPoint>[];
 
@@ -57,12 +58,15 @@ class _TurnByTurnState extends State<TurnByTurn> {
         latitude: (source.latitude).degrees,
         longitude: (source.longitude).degrees);
     destinationWaypoint = WayPoint(
-        name: "Destination",
+        name: destinationName,
         latitude: (destination.latitude).degrees,
         longitude: (destination.longitude).degrees);
+
     wayPoints.add(sourceWaypoint);
     wayPoints.add(destinationWaypoint);
-
+    
+    directions.setDefaultOptions(_options);
+    MapBoxNavigation.instance.setDefaultOptions(_options);
     // Iniciar navegação
     await directions.startNavigation(wayPoints: wayPoints, options: _options);
   }

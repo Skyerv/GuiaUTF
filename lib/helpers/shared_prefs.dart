@@ -44,3 +44,7 @@ String getSourceAndDestinationPlaceText(String type) {
     return destinationAddress;
   }
 }
+
+String getDestinationName() {
+  return sharedPreferences.getString('destinationName') ?? '';
+}
