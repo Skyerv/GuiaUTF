@@ -29,18 +29,22 @@ class _MicrophonePageState extends State<MicrophonePage>
 
   final Map<String, LatLng> _locations = {
     'academia': LatLng.degree(-25.052758024553686, -50.132030600382315),
-    'biblioteca': LatLng.degree(-25.05179784592007, -50.13033029064471),
+    'incubadora': LatLng.degree(-25.050548, -50.131849),
+    'biblioteca': LatLng.degree(-25.052052, -50.130193),
     'k': LatLng.degree(-25.05196612028669, -50.131037881178585),
     'ca': LatLng.degree(-25.05196612028669, -50.131037881178585),
     'l': LatLng.degree(-25.052105134672185, -50.13075655117847),
     'ru': LatLng.degree(-25.052614856920233, -50.129659651782084),
     'u': LatLng.degree(-25.052614856920233, -50.129659651782084),
+    'refeitório': LatLng.degree(-25.052614856920233, -50.129659651782084),
     'c': LatLng.degree(-25.051611756131994, -50.13168191499036),
     'se': LatLng.degree(-25.051611756131994, -50.13168191499036),
     'd': LatLng.degree(-25.051249504796495, -50.13129008507452),
     'de': LatLng.degree(-25.051249504796495, -50.13129008507452),
+    'aga': LatLng.degree(-25.051361, -50.130881),
+    'h': LatLng.degree(-25.051361, -50.130881),
     'entrada': LatLng.degree(-25.051036160579827, -50.13293188273079),
-    'ônibus': LatLng.degree(-25.05141761289667, -50.132931788011355),
+    'ônibus': LatLng.degree(-25.051322, -50.133080),
   };
 
   late stt.SpeechToText _speech;
