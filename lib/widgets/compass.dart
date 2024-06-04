@@ -49,11 +49,11 @@ class _CompassPageState extends State<CompassPage> {
     await flutterTts.speak(
         "Bem-vindo ao Guia UTF. No meio da tela há um botão. Clique nele e diga para onde deseja ir.");
   }
+
   void speechDirection(String speechDirection) async {
     await flutterTts.speak(
         speechDirection);
   }
-
   
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:guia_utf/pages/home.dart';
 import 'package:guia_utf/pages/microphone.dart';
 import 'package:guia_utf/widgets/compass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,6 +58,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-        body: CompassPage());
+        body: MicrophonePage());
   }
 }
